@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Provider from "./store/store"
 import App from './App';
+import NotFound from "./components/NotFound"
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter as Router, Switch,Route} from "react-router-dom"
+
+const Root = () =>(
+  <Router>
+    <Switch>
+      <Route exact path="/" component={App}/>
+      <Route component={NotFound}/>
+    </Switch>
+  </Router>
+)
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider>
+      <Root/>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

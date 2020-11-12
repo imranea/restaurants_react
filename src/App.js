@@ -1,7 +1,9 @@
 import logo from './logo.svg';
+import {connect} from "react-redux"
 import './App.css';
+import { CLICK } from './store/action';
 
-const App=()=> {
+const App=({click,handleClick})=> {
   return (
     <div className="App">
       <header className="App-header">
@@ -15,11 +17,25 @@ const App=()=> {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          {click}
         </a>
+        <button onClick={handleClick}>Increment</button>
       </header>
     </div>
   );
 }
 
-export default App;
+
+const mapStateToProps = ({click}) =>{
+  return{
+    click
+  };
+}
+
+const mapDispatchToProps = dispatch =>{
+  return{
+    handleClick : () => dispatch({type:CLICK}),
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
