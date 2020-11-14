@@ -1,41 +1,58 @@
-import logo from './logo.svg';
+import React,{useEffect,useState} from "react"
 import {connect} from "react-redux"
 import './App.css';
-import { CLICK } from './store/action';
+import Map from "./components/Map"
+import GridList from "./components/GridList"
+import fetchRestaurant from "./store/fetchRestaurant"
 
-const App=({click,handleClick})=> {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {click}
-        </a>
-        <button onClick={handleClick}>Increment</button>
-      </header>
-    </div>
-  );
-}
+ 
+const App = ({fetchRestaurant,restaurants})=>{
+  const [center,setCenter] = useState({
+    lat: null,
+    lng: null
+  })
+  const [zoom,setZoom]=useState(11)
 
 
-const mapStateToProps = ({click}) =>{
-  return{
-    click
-  };
-}
+  useEffect(()=>{
+    fetchRestaurant()
+    navigator.geolocation.watchPosition( position =>{
+      setCenter({
+        lat:position.coords.latitude,
+        lng:position.coords.longitude
+      })
+    },
+    error => {
+      if (error.code === error.PERMISSION_DENIED)
+      setCenter({
+        lat:48.8837815,
+        lng:2.3601649
+      })
+    });
+  },[fetchRestaurant]);
+
+    return (
+      // Important! Always set the container height explicitly
+      <>
+      <Map center={center} zoom={zoom} restaurants={restaurants}/>
+      <div>
+        <GridList restaurants={restaurants}/>
+      </div>
+      </>
+    );
+  }
+
+
+  const mapStateToProps = ({restaurants}) =>{
+    return{
+      restaurants
+    };
+  }
 
 const mapDispatchToProps = dispatch =>{
   return{
-    handleClick : () => dispatch({type:CLICK}),
+    fetchRestaurant : () => dispatch(fetchRestaurant())
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App); 
