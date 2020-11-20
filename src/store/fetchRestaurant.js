@@ -1,5 +1,6 @@
 import {fetchRestaurant} from "./action"
 import data from "../restaurant.json"
+<<<<<<< HEAD
 import axios from "axios"
 
 export default (place,lat,lng)=>{
@@ -15,4 +16,11 @@ export default (place,lat,lng)=>{
             dispatch(fetchRestaurant(data))
         }
 }
+=======
+
+export default ()=>{
+    return dispatch=>{
+        dispatch(fetchRestaurant(data))
+    }
+>>>>>>> 952d128b3071914d927953750810ae6a48197add
 }
