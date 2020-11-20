@@ -1,3 +1,4 @@
 export default {
-    click:0
+    note:0,
+    restaurants:[],
 };

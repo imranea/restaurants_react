@@ -1,11 +1,16 @@
-import {CLICK} from "./action"
+import {NOTE,FETCH_RESTAURANT} from "./action"
 
 const reducer = (state,action) =>{
     switch(action.type){
-        case CLICK:
+        case NOTE:
             return{
                 ...state,
-                click:state.click+1
+                note: action.note
+            }
+        case FETCH_RESTAURANT:
+            return{
+                ...state,
+                restaurants: action.restaurants
             }
         default:
             return state;
