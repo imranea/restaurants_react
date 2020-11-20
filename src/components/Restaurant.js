@@ -4,10 +4,7 @@ import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-<<<<<<< HEAD
 import CardMedia from '@material-ui/core/CardMedia';
-=======
->>>>>>> 952d128b3071914d927953750810ae6a48197add
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
@@ -18,27 +15,17 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-<<<<<<< HEAD
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import imgDefault from "../img/default.jpeg"
-=======
-import ReactStreetview from 'react-streetview';
->>>>>>> 952d128b3071914d927953750810ae6a48197add
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-<<<<<<< HEAD
   },
   media: {
     height: 0,
-=======
-    height:400
-  },
-  media: {
->>>>>>> 952d128b3071914d927953750810ae6a48197add
     paddingTop: '56.25%', // 16:9
   },
   expand: {
@@ -56,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-<<<<<<< HEAD
 
 const Restaurant = ({nameRestaurant,address,lat,lon,rating,types,id,image}) =>{
   const classes = useStyles();
@@ -73,33 +59,12 @@ const Restaurant = ({nameRestaurant,address,lat,lon,rating,types,id,image}) =>{
     setExpanded(!expanded);
   };
   //console.log(image)
-=======
-const Restaurant = ({nameRestaurant,address,lat,lon}) =>{
-  const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-
-  const streetViewPanoramaOptions = {
-    position: {lat: lat, lng: lon},
-    pov: {heading: 100, pitch: 0},
-    zoom: 1
-  };
-
->>>>>>> 952d128b3071914d927953750810ae6a48197add
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-<<<<<<< HEAD
              {nameRestaurant.charAt(0)}  
-=======
-            {nameRestaurant.charAt(0)} 
->>>>>>> 952d128b3071914d927953750810ae6a48197add
           </Avatar>
         }
         action={
@@ -110,7 +75,6 @@ const Restaurant = ({nameRestaurant,address,lat,lon}) =>{
         title={nameRestaurant}
         subheader={address} 
       />
-<<<<<<< HEAD
       <CardMedia
         className={classes.media}
         image={imgCard(image)}
@@ -141,30 +105,6 @@ const Restaurant = ({nameRestaurant,address,lat,lon}) =>{
         </Box>
       </CardContent>
       <CardActions disableSpacing>
-=======
-      <CardContent style={{
-                width: '100%',
-                height: '50%',
-                backgroundColor: '#eeeeee'
-            }}>
-      <ReactStreetview
-					streetViewPanoramaOptions={streetViewPanoramaOptions}
-			/>
-      </CardContent>
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
->>>>>>> 952d128b3071914d927953750810ae6a48197add
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -207,9 +147,6 @@ const Restaurant = ({nameRestaurant,address,lat,lon}) =>{
   );
 }
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 952d128b3071914d927953750810ae6a48197add
 export default Restaurant
