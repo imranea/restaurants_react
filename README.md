@@ -1,5 +1,6 @@
 # Getting Started with Create React App
 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -13,6 +14,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+If you want to see the application started, think to replace {APIKey} by your API in your Google account (you have to active the API Maps Javascript, Google places) and replace it in the file index.html, the component Restaurant.js et the file fetchRestaurant in the folder store
+
+If you want to 
 
 ### `npm test`
 
