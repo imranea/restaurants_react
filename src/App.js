@@ -21,7 +21,7 @@ const App = ({fetchRestaurant,restaurants,note})=>{
         lat:position.coords.latitude,
         lng:position.coords.longitude
       })
-      fetchRestaurant(true,position.coords.latitude,position.coords.longitude)
+     fetchRestaurant(true,position.coords.latitude,position.coords.longitude)
     },
     error => {
       if (error.code === error.PERMISSION_DENIED)
@@ -29,7 +29,7 @@ const App = ({fetchRestaurant,restaurants,note})=>{
         lat:48.8837815,
         lng:2.3601649
       })
-      fetchRestaurant(false,null,null)
+     fetchRestaurant(false,null,null)
     });
   },[fetchRestaurant]);
 

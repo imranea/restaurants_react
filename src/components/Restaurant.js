@@ -50,7 +50,7 @@ const Restaurant = ({nameRestaurant,address,lat,lon,rating,types,id,image}) =>{
 
   const imgCard = (img) =>{
     if(img){
-      return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${img[0].photo_reference}&key={YourAPIKEY}`
+      return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${img[0].photo_reference}&key=${process.env.REACT_APP_NOT_SECRET_CODE}`
     }
     return imgDefault
   }
