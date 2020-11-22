@@ -33,7 +33,7 @@ const App = ({fetchRestaurant,restaurants,note})=>{
     });
   },[fetchRestaurant]);
 
-  if(restaurants.length==0){
+  if(restaurants.length===0){
     return(
       <div style={{display:"flex",width:"100%",height:"100%"}}>
       <Loader
