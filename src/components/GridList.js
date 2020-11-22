@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const GridListRestaurant = ({restaurants,note}) =>{
+const GridListRestaurant = ({restaurants,note,reviews}) =>{
   const classes = useStyles();
   
   return (
@@ -45,6 +45,7 @@ const GridListRestaurant = ({restaurants,note}) =>{
                   rating={Math.round(restaurants[key].rating)}
                   types={restaurants[key].types}
                   image={restaurants[key].photos}
+                  review={reviews[key]}
                 />
                 )
               })
@@ -54,9 +55,10 @@ const GridListRestaurant = ({restaurants,note}) =>{
   );
 }
 
-const mapStateToProps = ({restaurants}) =>{
+const mapStateToProps = ({restaurants,reviews}) =>{
   return{
     restaurants,
+    reviews
   }
 }
 

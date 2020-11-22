@@ -29,7 +29,7 @@ const App = ({fetchRestaurant,restaurants,note})=>{
         lat:48.8837815,
         lng:2.3601649
       })
-     fetchRestaurant(false,null,null)
+     fetchRestaurant(true,48.8837815,2.3601649)
     });
   },[fetchRestaurant]);
 
