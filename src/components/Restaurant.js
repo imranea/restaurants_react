@@ -61,7 +61,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
      );
   }
 
-  const imgCard = (img) =>{
+  const imgCard = (img) =>{ // if img is defined, create an dynamic url 
     if(img){
       return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${img[0].photo_reference}&key=${process.env.REACT_APP_NOT_SECRET_CODE}`
     }
@@ -71,7 +71,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  //console.log(image)
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -94,7 +94,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
         title="Paella dish"
       />
       <CardContent>
-        {
+        { // display type of restaurants
           types?
           Object.keys(types)
           .map(key=>(
@@ -132,7 +132,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-         { 
+         { // display reviews of restaurants
           review.reviews?   
             Object.keys(review.reviews)
             .map(key=>(
@@ -156,9 +156,6 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
     </Card>
   );
 }
-
-
-
 
 
 export default Restaurant

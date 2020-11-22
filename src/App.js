@@ -15,21 +15,21 @@ const App = ({fetchRestaurant,restaurants,note})=>{
   const [zoom,setZoom]=useState(14)
 
 
-  useEffect(()=>{
-    navigator.geolocation.watchPosition( (position) =>{
-      setCenter({
+  useEffect(()=>{ 
+    navigator.geolocation.watchPosition( (position) =>{ // if geolocation is active, we recover lat and lng to send in the function
+      setCenter({                                       // fetchRestaurant to start our HTTP resquest with module axios
         lat:position.coords.latitude,
         lng:position.coords.longitude
       })
-     fetchRestaurant(true,position.coords.latitude,position.coords.longitude)
+     fetchRestaurant(position.coords.latitude,position.coords.longitude)
     },
     error => {
-      if (error.code === error.PERMISSION_DENIED)
+      if (error.code === error.PERMISSION_DENIED) // else we send default value(location in Paris)
       setCenter({
         lat:48.8837815,
         lng:2.3601649
       })
-     fetchRestaurant(true,48.8837815,2.3601649)
+     fetchRestaurant(48.8837815,2.3601649)
     });
   },[fetchRestaurant]);
 
@@ -58,7 +58,7 @@ const App = ({fetchRestaurant,restaurants,note})=>{
     );
   }
 
-  const mapStateToProps = ({restaurants,note}) =>{
+  const mapStateToProps = ({restaurants,note}) =>{ // get our state from store
     return{
       restaurants,
       note
@@ -66,7 +66,7 @@ const App = ({fetchRestaurant,restaurants,note})=>{
   }
 
 
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = dispatch =>{ // function from store 
   return{
     fetchRestaurant : (bool,lat,lng) => dispatch(fetchRestaurant(bool,lat,lng))
   }

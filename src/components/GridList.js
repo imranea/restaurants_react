@@ -27,7 +27,7 @@ const GridListRestaurant = ({restaurants,note,reviews}) =>{
   return (
     <div className={classes.root}>
       <GridList cellHeight={180} className={classes.gridList}>
-            {
+            { // map each object to create a component Card with props represents the informations of restaurants
               Object.keys(restaurants)
               .map(key => {
 
@@ -55,7 +55,7 @@ const GridListRestaurant = ({restaurants,note,reviews}) =>{
   );
 }
 
-const mapStateToProps = ({restaurants,reviews}) =>{
+const mapStateToProps = ({restaurants,reviews}) =>{ // get state from store
   return{
     restaurants,
     reviews

@@ -18,12 +18,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const DiscreteSlider=({noteRestaurant}) =>{
+const DiscreteSlider=({noteRestaurant}) =>{ // slider Component for rating
   const classes = useStyles();
 
 const valuetext = (value) =>{
     noteRestaurant(value)
-   //console.log("value",value)
  }
 
 
@@ -55,7 +54,7 @@ const valuetext = (value) =>{
   );
 }
 
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = dispatch =>{ // function from the store to update the rating on the slider
   return{
     noteRestaurant : (nb) => dispatch(noteRestaurant(nb))
   }

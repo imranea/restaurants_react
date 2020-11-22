@@ -1,10 +1,10 @@
 import React from "react"
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact from 'google-map-react'; // API GOOGLE MAP
 import Marker from './Marker';
 
 const Map = ({center,zoom,restaurants,note})=>{
  
-    const renderMarkers = (map, maps)=> {
+    const renderMarkers = (map, maps)=> { // function to display the marker represents the geolocation
       let infowindow = new maps.InfoWindow({
         content: "<h3>Votre localisation</h3>",
       });
@@ -13,9 +13,8 @@ const Map = ({center,zoom,restaurants,note})=>{
         map
       });
       marker.addListener("click", () => {
-        infowindow.open(map, marker);
+        infowindow.open(map, marker); // create a popup
       });
-        //renderRestaurant(map,maps);
     }
 
     return (
@@ -28,14 +27,14 @@ const Map = ({center,zoom,restaurants,note})=>{
           onGoogleApiLoaded={({map, maps}) => renderMarkers(map, maps)}
           yesIWantToUseGoogleMapApiInternals={true}
         >
-          {
-            Object.keys(restaurants)
+          { // display all markers represents Restaurants
+            Object.keys(restaurants) 
             .map(key =>{
               if(note>Math.round(restaurants[key].rating||0)){
                 return;
               }
               return(
-                <Marker
+                <Marker // component Marker
                   key={key}
                   lat={restaurants[key].geometry.location.lat}
                   lng={restaurants[key].geometry.location.lng}

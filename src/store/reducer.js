@@ -1,21 +1,21 @@
-import {NOTE,FETCH_RESTAURANT,FETCH_RESTAURANT_REVIEW} from "./action"
+import {NOTE,FETCH_RESTAURANT,FETCH_RESTAURANT_REVIEW} from "./action" // TYPE
 
-const reducer = (state,action) =>{
+const reducer = (state,action) =>{ 
     switch(action.type){
-        case NOTE:
+        case NOTE: // type: Note 
             return{
-                ...state,
-                note: action.note
+                ...state, // get all state
+                note: action.note // update our state note
             }
-        case FETCH_RESTAURANT:
+        case FETCH_RESTAURANT: // type: FETCH_RESTAURANT
             return{
                 ...state,
-                restaurants: action.restaurants
+                restaurants: action.restaurants // update our state restaurant
             }
-        case FETCH_RESTAURANT_REVIEW:
+        case FETCH_RESTAURANT_REVIEW: // type: FETCH_RESTAURANT_REVIEW
             return{
                 ...state,
-                reviews:action.reviews
+                reviews:action.reviews // update our state review
             }
         default:
             return state;
