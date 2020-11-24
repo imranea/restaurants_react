@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from "react"
 import {connect} from "react-redux"
 import './App.css';
+import AppBar from "./components/AppBar/appBar"
 import Map from "./components/Map/Map"
 import GridList from "./components/RestaurantList/GridList"
 import fetchRestaurant from "./store/fetchRestaurant"
@@ -49,7 +50,8 @@ const App = ({fetchRestaurant,restaurants,note})=>{
     return (
       // Important! Always set the container height explicitly
       <>
-     <Map center={center} zoom={zoom} restaurants={restaurants} note={note}/>
+      <AppBar/>
+      <Map center={center} zoom={zoom} restaurants={restaurants} note={note}/>
       <Slider/>
       <div>
         <GridList restaurants={restaurants} note={note}/>
