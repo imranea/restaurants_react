@@ -87,6 +87,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
         }
         title={nameRestaurant}
         subheader={address} 
+        style={{"height":"70px"}}
       />
       <CardMedia
         className={classes.media}
