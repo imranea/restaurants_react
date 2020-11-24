@@ -16,7 +16,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
-import imgDefault from "../img/default.jpeg";
+import imgDefault from "../../img/default.jpeg";
 import Loader from 'react-loader-spinner'
 
 const useStyles = makeStyles((theme) => ({

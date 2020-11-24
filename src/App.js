@@ -1,11 +1,11 @@
 import React,{useEffect,useState} from "react"
 import {connect} from "react-redux"
 import './App.css';
-import Map from "./components/Map"
-import GridList from "./components/GridList"
+import Map from "./components/Map/Map"
+import GridList from "./components/RestaurantList/GridList"
 import fetchRestaurant from "./store/fetchRestaurant"
 import Loader from 'react-loader-spinner'
-import Slider from "./components/Slider"
+import Slider from "./components/Filter/Slider"
 
 const App = ({fetchRestaurant,restaurants,note})=>{
   const [center,setCenter] = useState({
