@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Provider from "./store/store"
 import App from './App';
+import SignUp from "./components/LoginPage/signUp"
 import NotFound from "./components/NotFound/NotFound"
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Switch,Route} from "react-router-dom"
@@ -10,7 +11,8 @@ import {BrowserRouter as Router, Switch,Route} from "react-router-dom"
 const Root = () =>(
   <Router>
     <Switch>
-      <Route exact path="/" component={App}/>
+      <Route exact path="/" component={SignUp}/>
+      <Route path="/map" component={App}/>
       <Route component={NotFound}/>
     </Switch>
   </Router>
