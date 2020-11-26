@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Provider from "./store/store"
 import App from './App';
-import NotFound from "./components/NotFound"
+import NotFound from "./components/NotFound/NotFound"
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Switch,Route} from "react-router-dom"
 
