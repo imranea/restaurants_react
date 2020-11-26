@@ -8,8 +8,10 @@ import fetchRestaurant from "./store/fetchRestaurant"
 import Loader from 'react-loader-spinner'
 import Slider from "./components/Filter/Slider"
 import {useMediaQuery} from "react-responsive"
+import {Redirect} from "react-router-dom"
 
 const App = ({fetchRestaurant,restaurants,note})=>{
+
   const isTabletOrMobileDevice = useMediaQuery({
     query: '(max-width: 321px)'
   })
@@ -18,25 +20,35 @@ const App = ({fetchRestaurant,restaurants,note})=>{
     lng: null
   })
   let zoom =14
+  
 
   useEffect(()=>{ 
-    navigator.geolocation.watchPosition( (position) =>{ // if geolocation is active, we recover lat and lng to send in the function
-      setCenter({                                       // fetchRestaurant to start our HTTP resquest with module axios
-        lat:position.coords.latitude,
-        lng:position.coords.longitude
-      })
-     fetchRestaurant(true,position.coords.latitude,position.coords.longitude)
-    },
-    error => {
-      if (error.code === error.PERMISSION_DENIED) // else we send default value(location in Paris)
-      setCenter({
-        lat:48.8737815,
-        lng:2.3601649
-      })
-     fetchRestaurant(false,48.8837815,2.3601649)
+    if(localStorage.getItem('token')){// execute only if token is present
+      navigator.geolocation.watchPosition( (position) =>{ // if geolocation is active, we recover lat and lng to send in the function
+        setCenter({                                       // fetchRestaurant to start our HTTP resquest with module axios
+          lat:position.coords.latitude,
+          lng:position.coords.longitude
+        })
+        fetchRestaurant(true,position.coords.latitude,position.coords.longitude)
+      },
+      error => {
+        if (error.code === error.PERMISSION_DENIED) // else we send default value(location in Paris)
+        setCenter({
+          lat:48.8737815,
+          lng:2.3601649
+        })
+        console.log("useeffect")
+        fetchRestaurant(false,48.8837815,2.3601649)
+      }
+      );
     }
-    );
   },[fetchRestaurant]);
+
+  if(localStorage.getItem('token') === null ){ // if token is null, redirect to login page
+    return (
+      <Redirect to="/" />
+    )
+  }
 
   if(restaurants.length===0){
     return(
