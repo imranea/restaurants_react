@@ -21,7 +21,7 @@ import Loader from 'react-loader-spinner'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    width: 345,
   },
   media: {
     height: 0,
@@ -47,7 +47,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
-  if(review === undefined){
+   if(review === undefined){ 
     return(
       <div style={{display:"flex",width:"100%",height:"100%"}}>
       <Loader
@@ -59,7 +59,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
       />
       </div>
      );
-  }
+  } 
 
   const imgCard = (img) =>{ // if img is defined, create an dynamic url 
     if(img){
@@ -150,7 +150,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
             <Typography paragraph>
                 Aucun avis
             </Typography>
-          } 
+          }  
         
         </CardContent>
       </Collapse>
