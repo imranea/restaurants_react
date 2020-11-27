@@ -1,9 +1,9 @@
 import React,{useState} from "react"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import axios from "axios"
 import {Redirect} from "react-router-dom"
 import MuiAlert from '@material-ui/lab/Alert';
+import {loginUser,getProfile} from "../UserFunction"
 
 import "./login.css"
 
@@ -18,7 +18,6 @@ const SignUpPage = () =>{
         password:"",
         error:false
     })
-    const [token,setToken] = useState(null)
 
     const handleChange = (event) =>{
         const {name,value} = event.target
@@ -30,27 +29,37 @@ const SignUpPage = () =>{
 
     const handleSubmit=(event)=>{
         event.preventDefault()
-        axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/login`,{
-            email:idLogin.email,
-            password:idLogin.password
-        })
-        .then((response)=>{ // set token in localStorage
-            localStorage.clear()
-            localStorage.setItem("token",response.data.token)
-            setToken(response.data.token) // function who start my function in action.js to store my new token
-        })
-        .catch((e)=>{ // change state login.error to true to do appear the error notification
+        loginUser(idLogin.email,idLogin.password) // function from UserFunction.js
+        .then(res=>{
             let login = {...idLogin}
-            login.error = true
+            if(res){
+                localStorage.setItem("token",res)
+                login.redirect = true
+            }else{
+                login.error = true
+            }
             setidLogin(login)
         })
-
     }
-     if(token){ // if token is present , redirect to map
-        return(
-            <Redirect push to="/map"/>
-        )
+
+    if(localStorage.getItem('token')){ // if token is present , redirect to map
+        getProfile(localStorage.getItem('token')) // function from UserFunction.js
+        .then(res=>{
+            if(res){
+                let login = {...idLogin}
+                login.redirect = true
+                setidLogin(login)
+            }else{
+                localStorage.clear()
+                console.log("token expiré")
+            }
+        })
     } 
+    
+    if(idLogin.redirect){
+        return <Redirect push to="/map"/>
+    }
+
     return(
         <div className="myForm">
             <Form onSubmit={handleSubmit}>
