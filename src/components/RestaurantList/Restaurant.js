@@ -18,6 +18,7 @@ import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import imgDefault from "../../img/default.jpeg";
 import Loader from 'react-loader-spinner'
+import PropTypes from "prop-types"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -158,5 +159,14 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
   );
 }
 
+Restaurant.propTypes = {
+  nameRestaurant : PropTypes.string.isRequired,
+  address : PropTypes.string.isRequired,
+  rating : PropTypes.number.isRequired,
+  type: PropTypes.array,
+  image: PropTypes.string,
+  id: PropTypes.string,
+  review: PropTypes.object
+}
 
 export default Restaurant

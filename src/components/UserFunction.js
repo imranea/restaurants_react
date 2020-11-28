@@ -24,3 +24,7 @@ export const getProfile = (token) =>{
         console.log(error)
     })
 }
+
+export const logOutUser = () =>{
+    return axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/logout`)
+}

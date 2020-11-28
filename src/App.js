@@ -10,6 +10,7 @@ import Slider from "./components/Filter/Slider"
 import {useMediaQuery} from "react-responsive"
 import {Redirect} from "react-router-dom"
 import {getProfile} from "./components/UserFunction"
+import PropTypes from "prop-types"
 
 const App = ({fetchRestaurant,restaurants,note})=>{
 
@@ -102,6 +103,12 @@ const mapDispatchToProps = dispatch =>{ // function from store
   return{
     fetchRestaurant : (bool,lat,lng) => dispatch(fetchRestaurant(bool,lat,lng))
   }
+}
+
+App.propTypes = {
+  restaurants : PropTypes.array.isRequired,
+  note : PropTypes.number.isRequired,
+  fetchRestaurant : PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(App); 

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import{connect} from "react-redux"
 import CardRestaurant from "./Restaurant"
+import PropTypes from "prop-types"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +64,10 @@ const mapStateToProps = ({restaurants,reviews}) =>{ // get state from store
   }
 }
 
-
+GridListRestaurant.propTypes = {
+  restaurants : PropTypes.array.isRequired,
+  note : PropTypes.number.isRequired,
+  reviews : PropTypes.array.isRequired
+}
 
 export default connect(mapStateToProps)(GridListRestaurant)

@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import {Redirect} from "react-router-dom"
 import MuiAlert from '@material-ui/lab/Alert';
 import {loginUser,getProfile} from "../UserFunction"
+import AppBar from "../AppBar/appBar"
 
 import "./login.css"
 
@@ -61,6 +62,8 @@ const SignUpPage = () =>{
     }
 
     return(
+        <>
+        <AppBar/>
         <div className="myForm">
             <Form onSubmit={handleSubmit}>
                 {idLogin.error?
@@ -87,6 +90,7 @@ const SignUpPage = () =>{
                 </Button>
             </Form>
         </div>
+        </>
     )
 }
 

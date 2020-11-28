@@ -4,13 +4,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import {getProfile} from "../UserFunction"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,13 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuAppBar() {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
+  const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -41,6 +34,19 @@ export default function MenuAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const logOut = () =>{
+    console.log("ok")
+  }
+
+  if(localStorage.getItem('token')){ // if token is present , redirect to map
+    getProfile(localStorage.getItem('token')) // function from UserFunction.js
+    .then(res=>{
+        if(res){
+            setAuth(true)
+        }
+    })
+} 
 
   return (
     <div className={classes.root}>
@@ -76,7 +82,7 @@ export default function MenuAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={logOut}>My account</MenuItem>
               </Menu>
             </div>
           )}
