@@ -25,6 +25,14 @@ export const getProfile = (token) =>{
     })
 }
 
-export const logOutUser = () =>{
-    return axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/logout`)
+export const logOutUser = (token) =>{
+    return axios.get(`${process.env.REACT_APP_API_NODE}/api/auth/logout`,{
+        headers:{Authorization:`Bearer ${token}`}
+    })
+    .then(response =>{
+        return response
+    })
+    .catch(error =>{
+        console.log(error)
+    })
 }

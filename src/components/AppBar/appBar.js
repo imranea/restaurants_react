@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,7 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import {getProfile} from "../UserFunction"
+import {getProfile,logOutUser} from "../UserFunction"
+import {Redirect} from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuAppBar() {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [auth, setAuth] = useState(false);
+  const [redirect,setRedirect] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleMenu = (event) => {
@@ -36,17 +38,28 @@ export default function MenuAppBar() {
   };
 
   const logOut = () =>{
-    console.log("ok")
+    logOutUser(localStorage.getItem('token'))
+    .then(res=>{
+      if(res){
+        setRedirect(true)
+      }
+    })
   }
 
   if(localStorage.getItem('token')){ // if token is present , redirect to map
     getProfile(localStorage.getItem('token')) // function from UserFunction.js
     .then(res=>{
         if(res){
-            setAuth(true)
+            setAuth(res)
         }
     })
-} 
+  }  
+
+  if(redirect){ // if token is null, redirect to login page
+    return (
+      <Redirect to="/" />
+    )
+  }
 
   return (
     <div className={classes.root}>
@@ -81,8 +94,8 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={logOut}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Add Restaurant</MenuItem>
+                <MenuItem onClick={logOut}>Log out</MenuItem>
               </Menu>
             </div>
           )}

@@ -19,6 +19,7 @@ const SignUpPage = () =>{
         password:"",
         error:false
     })
+    const [notif,setNotif]= useState()
 
     const handleChange = (event) =>{
         const {name,value} = event.target
@@ -37,6 +38,8 @@ const SignUpPage = () =>{
                 localStorage.setItem("token",res)
                 login.redirect = true
             }else{
+                //setNotif(1)
+                setNotif(<Alert severity="error">Mauvais identifiant ou mot de passe</Alert>)
                 login.error = true
             }
             setidLogin(login)
@@ -46,13 +49,15 @@ const SignUpPage = () =>{
     if(localStorage.getItem('token')){ // if token is present , redirect to map
         getProfile(localStorage.getItem('token')) // function from UserFunction.js
         .then(res=>{
+            let login = {...idLogin}
             if(res){
-                let login = {...idLogin}
                 login.redirect = true
                 setidLogin(login)
             }else{
                 localStorage.clear()
-                console.log("token expiré")
+                setNotif(<Alert severity="success">Vous avez été deconnecté</Alert>)
+                login.error = true
+                setidLogin(login)
             }
         })
     } 
@@ -67,7 +72,7 @@ const SignUpPage = () =>{
         <div className="myForm">
             <Form onSubmit={handleSubmit}>
                 {idLogin.error?
-                    <Alert severity="error">Email or password incorrect!</Alert>
+                    notif
                     :
                     <span></span>
                 }
