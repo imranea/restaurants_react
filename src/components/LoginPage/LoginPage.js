@@ -6,14 +6,19 @@ import SignUp from "./signUp"
 const LoginPage = () =>{
 
     const [view,setView]=useState(false)
+    
+    const changeView = (val) =>{ // function to change boolean value to change
+        setView(val)
+    }
+
     return(
         <>
             <AppBar/>
             {
                 view?
-                <SignUp/>
+                <SignUp viewSignUp={view} changeView={changeView}/> // Component sign up
                 :
-                <SignIn/>
+                <SignIn viewSignIn={view} changeView={changeView}/> // Component sign in
             }
         </>
     )

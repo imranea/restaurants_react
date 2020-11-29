@@ -4,15 +4,13 @@ import Button from 'react-bootstrap/Button'
 import {Redirect} from "react-router-dom"
 import MuiAlert from '@material-ui/lab/Alert';
 import {loginUser,getProfile} from "../UserFunction"
-import AppBar from "../AppBar/appBar"
-
 import "./login.css"
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-const SignUpPage = () =>{
+const SignInPage = ({viewSignIn,changeView}) =>{
     
     const [idLogin,setidLogin]= useState({
         email:"",
@@ -22,12 +20,17 @@ const SignUpPage = () =>{
     })
     const [notif,setNotif]= useState()
 
+
     const handleChange = (event) =>{
         const {name,value} = event.target
         let login = {...idLogin}
         name === "email" ? login.email = value : login.password = value
         login.error=false
         setidLogin(login)
+    }
+
+    const handleClick = (val) =>{
+        changeView(!val)
     }
 
     const handleSubmit=(event)=>{
@@ -90,10 +93,11 @@ const SignUpPage = () =>{
                 <Button variant="primary" type="submit">
                     Sign In
                 </Button>
+                <p onClick={()=>handleClick(viewSignIn)} style={{marginTop:"5%",cursor:"pointer"}}>Create new account?</p>
             </Form>
         </div>
         </>
     )
 }
 
-export default SignUpPage
+export default SignInPage

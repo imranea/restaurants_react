@@ -7,11 +7,11 @@ import {signUpUser} from "../UserFunction"
 
 import "./login.css"
 
-function Alert(props) {
+function Alert(props) { // component pur Alert
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-const SignUpPage = () =>{
+const SignUpPage = ({viewSignUp,changeView}) =>{
     
     const [idLoginSignUp,setIdLoginSignUp]= useState({
         pseudo:"",
@@ -42,23 +42,27 @@ const SignUpPage = () =>{
         setIdLoginSignUp(login) 
     }
 
-    const handleSubmit=(event)=>{
+    const handleClick = (val) =>{
+        changeView(!val)
+    }
+
+    const handleSubmit=(event)=>{ // submit 
         event.preventDefault()
-        signUpUser(idLoginSignUp.pseudo,idLoginSignUp.email,idLoginSignUp.password)
-        .then(res =>{
-            let login = {...idLoginSignUp}
+        signUpUser(idLoginSignUp.pseudo,idLoginSignUp.email,idLoginSignUp.password) // function from UserFunction.js
+        .then(res =>{ // if res is retrieved
+            let login = {...idLoginSignUp} // get state idLogin in variable
             if(res){
-                localStorage.setItem("token",res.token)
-                login.redirect = true
+                localStorage.setItem("token",res.token) // set token in localstorage
+                login.redirect = true // set redirect to true
             }else{
-                setNotif(<Alert severity="error">Un compte possède déjà ce mail</Alert>)
-                login.error = true
+                setNotif(<Alert severity="error">Un compte possède déjà ce mail</Alert>) // state notif with component Alert error
+                login.error = true // set login to true
             }
-            setIdLoginSignUp(login)
+            setIdLoginSignUp(login) // update state 
         })
     }
 
-    if(idLoginSignUp.redirect){
+    if(idLoginSignUp.redirect){ // if redirect is true , redirect to map
         return <Redirect push to="/map"/>
     }
 
@@ -91,6 +95,7 @@ const SignUpPage = () =>{
                 <Button variant="primary" type="submit">
                     Sign Up
                 </Button>
+                <p onClick={()=>handleClick(viewSignUp)} style={{marginTop:"5%",cursor:"pointer"}}>You have already an account?</p>
             </Form>
         </div>
         </>
