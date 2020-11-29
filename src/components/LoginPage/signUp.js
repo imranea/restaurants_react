@@ -3,8 +3,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {Redirect} from "react-router-dom"
 import MuiAlert from '@material-ui/lab/Alert';
-import {loginUser,getProfile} from "../UserFunction"
-import AppBar from "../AppBar/appBar"
+import {signUpUser} from "../UserFunction"
 
 import "./login.css"
 
@@ -14,84 +13,83 @@ function Alert(props) {
 
 const SignUpPage = () =>{
     
-    const [idLogin,setidLogin]= useState({
+    const [idLoginSignUp,setIdLoginSignUp]= useState({
+        pseudo:"",
         email:"",
         password:"",
+        redirect:false,
         error:false
     })
     const [notif,setNotif]= useState()
 
     const handleChange = (event) =>{
         const {name,value} = event.target
-        let login = {...idLogin}
-        name === "email" ? login.email = value : login.password = value
+        let login = {...idLoginSignUp}
+        switch(name){
+            case "pseudo":
+                login.pseudo=value
+                break
+            case "email":
+                login.email=value
+                break
+            case "password":
+                login.password=value
+                break
+            default:
+                console.log("nothing")
+        }
         login.error=false
-        setidLogin(login)
+        setIdLoginSignUp(login) 
     }
 
     const handleSubmit=(event)=>{
         event.preventDefault()
-        loginUser(idLogin.email,idLogin.password) // function from UserFunction.js
-        .then(res=>{
-            let login = {...idLogin}
+        signUpUser(idLoginSignUp.pseudo,idLoginSignUp.email,idLoginSignUp.password)
+        .then(res =>{
+            let login = {...idLoginSignUp}
             if(res){
-                localStorage.setItem("token",res)
+                localStorage.setItem("token",res.token)
                 login.redirect = true
             }else{
-                //setNotif(1)
-                setNotif(<Alert severity="error">Mauvais identifiant ou mot de passe</Alert>)
+                setNotif(<Alert severity="error">Un compte possède déjà ce mail</Alert>)
                 login.error = true
             }
-            setidLogin(login)
+            setIdLoginSignUp(login)
         })
     }
 
-    if(localStorage.getItem('token')){ // if token is present , redirect to map
-        getProfile(localStorage.getItem('token')) // function from UserFunction.js
-        .then(res=>{
-            let login = {...idLogin}
-            if(res){
-                login.redirect = true
-                setidLogin(login)
-            }else{
-                localStorage.clear()
-                setNotif(<Alert severity="success">Vous avez été deconnecté</Alert>)
-                login.error = true
-                setidLogin(login)
-            }
-        })
-    } 
-    
-    if(idLogin.redirect){
+    if(idLoginSignUp.redirect){
         return <Redirect push to="/map"/>
     }
 
     return(
         <>
-        <AppBar/>
         <div className="myForm">
             <Form onSubmit={handleSubmit}>
-                {idLogin.error?
+                {idLoginSignUp.error?
                     notif
                     :
                     <span></span>
                 }
+                <Form.Group controlId="formBasicPseudo">
+                    <Form.Label>Pseudo</Form.Label>
+                    <Form.Control type="text" name="pseudo" placeholder="Enter pseudo" onChange={handleChange} value={idLoginSignUp.pseudo} required/>
+                    <Form.Text className="text-muted">
+                    </Form.Text>
+                </Form.Group>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" name="email" placeholder="Enter email" onChange={handleChange} value={idLogin.email} required/>
+                    <Form.Control type="email" name="email" placeholder="Enter email" onChange={handleChange} value={idLoginSignUp.email} required/>
                     <Form.Text className="text-muted">
                     </Form.Text>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="password" placeholder="Password" onChange={handleChange} value={idLogin.password} required/>
-                </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
+                    <Form.Control type="password" name="password" placeholder="Password" onChange={handleChange} value={idLoginSignUp.password} required/>
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Sign In
+                    Sign Up
                 </Button>
             </Form>
         </div>

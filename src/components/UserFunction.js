@@ -13,6 +13,20 @@ export const loginUser = (email,password) =>{ // function login user with axios 
     })
 }
 
+export const signUpUser = (name,email,password) =>{ // function signup user with axios request
+    return axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/signup`,{
+        name,
+        email,
+        password
+    })
+    .then((response)=>{ // set token in localStorage
+        return response.data // return token 
+    })
+    .catch((e)=>{
+        console.log(e)
+    })
+}
+
 export const getProfile = (token) =>{
    return axios.get(`${process.env.REACT_APP_API_NODE}/api/auth/me`,{
         headers:{Authorization:`Bearer ${token}`}
