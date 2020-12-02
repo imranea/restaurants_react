@@ -4,6 +4,8 @@ import './index.css';
 import Provider from "./store/store"
 import App from './App';
 import LoginPage from "./components/LoginPage/LoginPage"
+import Profil from "./components/Admin/Profil"
+import RestaurantAdmin from "./components/Admin/RestaurantAdmin"
 import NotFound from "./components/NotFound/NotFound"
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Switch,Route} from "react-router-dom"
@@ -13,6 +15,8 @@ const Root = () =>(
     <Switch>
       <Route exact path="/" component={LoginPage}/>
       <Route path="/map" component={App}/>
+      <Route path="/profil" component={Profil}/>
+      <Route path="/addRestaurant" component={RestaurantAdmin}/>
       <Route component={NotFound}/>
     </Switch>
   </Router>

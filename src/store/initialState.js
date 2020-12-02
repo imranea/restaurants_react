@@ -1,6 +1,5 @@
 export default {
     note:0,
     restaurants:[],
-    reviews:[],
-    token:null
+    reviews:[]
 };

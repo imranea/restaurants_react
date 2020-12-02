@@ -23,9 +23,9 @@ const SignUpPage = ({viewSignUp,changeView}) =>{
     const [notif,setNotif]= useState()
 
     const handleChange = (event) =>{
-        const {name,value} = event.target
+        const {name,value} = event.target 
         let login = {...idLoginSignUp}
-        switch(name){
+        switch(name){ // get name and check the value to realize different operations
             case "pseudo":
                 login.pseudo=value
                 break
@@ -42,8 +42,8 @@ const SignUpPage = ({viewSignUp,changeView}) =>{
         setIdLoginSignUp(login) 
     }
 
-    const handleClick = (val) =>{
-        changeView(!val)
+    const handleClick = (val) =>{ // function onClick on the button
+        changeView(!val) // function from the parent component to update the boolean state
     }
 
     const handleSubmit=(event)=>{ // submit 

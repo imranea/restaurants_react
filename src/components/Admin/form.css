@@ -1,0 +1,20 @@
+.myFormRestaurant{
+    display: flex;
+    /* width: 100%; */
+    justify-content: center;
+    margin-top: 10%;
+
+}
+
+.myFormRestaurant form{
+    width: 70%;
+    border: 2px solid white;
+    box-shadow: 6px 9px 29px white;
+    padding: 3%;
+    border-radius: 10px;
+    background-color: #c7c7c7cf;
+}
+
+.addInput{
+
+}

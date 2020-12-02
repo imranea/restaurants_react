@@ -32,7 +32,7 @@ export const getProfile = (token) =>{
         headers:{Authorization:`Bearer ${token}`}
     })
     .then(response=>{
-        return response.data.connected
+        return response.data
     })
     .catch(error =>{
         console.log(error)

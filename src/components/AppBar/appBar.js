@@ -8,7 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import {getProfile,logOutUser} from "../UserFunction"
-import {Redirect} from "react-router-dom"
+import {Redirect,NavLink} from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +41,7 @@ export default function MenuAppBar() {
     logOutUser(localStorage.getItem('token'))
     .then(res=>{
       if(res){
+        localStorage.clear()
         setRedirect(true)
       }
     })
@@ -59,7 +60,7 @@ export default function MenuAppBar() {
     return (
       <Redirect to="/" />
     )
-  }
+  } 
 
   return (
     <div className={classes.root}>
@@ -94,8 +95,13 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Add Restaurant</MenuItem>
-                <MenuItem onClick={logOut}>Log out</MenuItem>
+                <NavLink style={{textDecoration:"none"}} to="/profil">
+                  <MenuItem onClick={handleClose}>My Profil</MenuItem>
+                </NavLink>
+                <NavLink style={{textDecoration:"none"}} to="/addRestaurant">
+                  <MenuItem onClick={handleClose}>Add Restaurant</MenuItem>
+                </NavLink>
+                <MenuItem onClick={logOut} style={{color:"#007bff"}}>Log out</MenuItem>
               </Menu>
             </div>
           )}
