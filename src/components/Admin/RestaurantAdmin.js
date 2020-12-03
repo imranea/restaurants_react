@@ -7,6 +7,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import withRestaurantAdmin from "../../hoc/withRestaurantAdmin"
 
+
 const RestaurantAdmin =(props)=>{ // Component Form Restaurant
 
         return(
@@ -15,6 +16,11 @@ const RestaurantAdmin =(props)=>{ // Component Form Restaurant
             <h1 style={{textAlign:"center"}}>Create Restaurant</h1>
             <div className="myFormRestaurant">
                 <Form onSubmit={props.handleSubmit}>
+                {props.error?
+                    props.notif
+                :
+                    <span></span>
+                }
                     <Form.Group controlId="formBasicName">
                         <Form.Label>Name Restaurant</Form.Label>
                         <Form.Control type="text" name="nameRestaurant" placeholder="Enter name of the Restaurant" value={props.nameRestaurant} onChange={props.handleChange}/>
@@ -23,6 +29,14 @@ const RestaurantAdmin =(props)=>{ // Component Form Restaurant
                     <Form.Group controlId="formBasicAddress">
                         <Form.Label>Address</Form.Label>
                         <Form.Control type="text" name="address" placeholder="Address" value={props.address} onChange={props.handleChange}/>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicAddress">
+                        <Form.Label>Postal Code</Form.Label>
+                        <Form.Control type="text" name="postalCode" placeholder="Postal Code" value={props.postalCode} onChange={props.handleChange}/>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicAddress">
+                        <Form.Label>City</Form.Label>
+                        <Form.Control type="text" name="city" placeholder="City" value={props.city} onChange={props.handleChange}/>
                     </Form.Group>
                     <Form.Group controlId="formBasicRating">
                         <Form.Label>Ratings</Form.Label>

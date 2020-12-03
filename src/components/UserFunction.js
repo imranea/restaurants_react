@@ -27,7 +27,7 @@ export const signUpUser = (name,email,password) =>{ // function signup user with
     })
 }
 
-export const getProfile = (token) =>{
+export const getProfile = (token) =>{ // check if token is correct to authorizate the navigation for the user
    return axios.get(`${process.env.REACT_APP_API_NODE}/api/auth/me`,{
         headers:{Authorization:`Bearer ${token}`}
     })
@@ -39,7 +39,7 @@ export const getProfile = (token) =>{
     })
 }
 
-export const logOutUser = (token) =>{
+export const logOutUser = (token) =>{ // logout (remove the present token from the database)
     return axios.get(`${process.env.REACT_APP_API_NODE}/api/auth/logout`,{
         headers:{Authorization:`Bearer ${token}`}
     })
@@ -48,5 +48,18 @@ export const logOutUser = (token) =>{
     })
     .catch(error =>{
         console.log(error)
+    })
+}
+
+export const createRestaurant = (restaurant,token) =>{ // create restaurant
+    return axios.post(`${process.env.REACT_APP_API_NODE}/api/restaurants/create`,restaurant,
+    {
+        headers:{Authorization:`Bearer ${token}`}
+    })
+    .then((response)=>{ // set token in localStorage
+        return response.data // return token 
+    })
+    .catch((e)=>{
+        return e.response.status
     })
 }
