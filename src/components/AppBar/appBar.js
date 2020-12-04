@@ -63,7 +63,7 @@ export default function MenuAppBar() {
   } 
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-test="component-appBar">
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>

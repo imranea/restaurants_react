@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.2.2",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "check-prop-types": "^1.1.2",
     "dotenv": "^8.2.0",
     "google-map-react": "^2.1.9",
     "nominatim-geocoder": "^0.1.4",
@@ -54,5 +55,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "jest-enzyme": "^7.1.2"
   }
 }

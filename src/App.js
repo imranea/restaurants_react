@@ -62,7 +62,7 @@ const App = ({fetchRestaurant,restaurants,note})=>{
 
   if(restaurants.length===0){
     return(
-      <div style={{display:"flex",width:"100%",height:"100%"}}>
+      <div style={{display:"flex",width:"100%",height:"100%"}} data-test="component-loader">
       <Loader
          type="Puff"
          color="#00BFFF"
@@ -80,14 +80,14 @@ const App = ({fetchRestaurant,restaurants,note})=>{
 
     return (
       // Important! Always set the container height explicitly
-      <>
+      <div data-test="component-app">
       <AppBar/>
       <Map center={center} zoom={zoom} restaurants={restaurants} note={note}/>
       <Slider/>
       <div>
         <GridList restaurants={restaurants} note={note}/>
       </div> 
-      </>
+      </div>
     );
   }
 
