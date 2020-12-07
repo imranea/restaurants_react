@@ -1,25 +1,25 @@
-import React from "react"
+import React,{Component} from "react"
 import AppBar from "../AppBar/appBar"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import './form.css'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import withRestaurantAdmin from "../../hoc/withRestaurantAdmin"
+import withUpdateRestaurant from "../../hoc/withUpdateRestaurant"
 
 
-const RestaurantAdmin =(props)=>{ // Component Form Restaurant
-
+const UpdateRestaurant = (props)=>{
         return(
-            <> 
-            <AppBar/>
-            <h1 style={{textAlign:"center"}}>Create Restaurant</h1>
+        <> 
+            {/* <AppBar/> */}
+            <h1 style={{textAlign:"center"}}>Update Restaurant</h1>
             <div className="myFormRestaurant">
                 <Form onSubmit={props.handleSubmit}>
-                {props.error?
-                    props.notif
-                :
-                    <span></span>
-                }
+                    {
+                        props.alert?
+                        props.notif
+                        :
+                        <span></span>
+                    }
                     <Form.Group controlId="formBasicName">
                         <Form.Label>Name Restaurant</Form.Label>
                         <Form.Control type="text" name="nameRestaurant" placeholder="Enter name of the Restaurant" value={props.nameRestaurant} onChange={props.handleChange} required/>
@@ -43,13 +43,13 @@ const RestaurantAdmin =(props)=>{ // Component Form Restaurant
                     </Form.Group>
                     <Form.Group controlId="formBasicType">
                         <Form.Label>Type</Form.Label>
-                        <Form.Control type="text" placeholder="Type of Restaurant" className="typeRestaurant" key="0" required/>
+                        <Form.Control type="text" name="typeFirst" placeholder="Type of Restaurant" className="typeRestaurant" value={props.typeFirst} onChange={props.handleChange} key="0" required/>
                         {
                             props.inputType
                         }
                     </Form.Group>
                     <div>
-                    <AddCircleIcon color="primary" onClick={props.handleClick} style={{cursor:"pointer"}}/>
+                    <AddCircleIcon color="primary" style={{cursor:"pointer"}} onClick={props.handleClick}/>
                         Add Type
                     </div><br/>
                     <Button variant="primary" type="submit">
@@ -59,10 +59,8 @@ const RestaurantAdmin =(props)=>{ // Component Form Restaurant
             </div>
         </>
         )
-    
-    
 }
 
-const WrappedComponent = withRestaurantAdmin(RestaurantAdmin)
+const WrappedComponent = withUpdateRestaurant(UpdateRestaurant)
 
 export default WrappedComponent

@@ -6,6 +6,7 @@ import App from './App';
 import LoginPage from "./components/LoginPage/LoginPage"
 import Profil from "./components/Admin/Profil"
 import RestaurantAdmin from "./components/Admin/RestaurantAdmin"
+import UpdateRestaurant from "./components/Admin/UpdateRestaurant"
 import NotFound from "./components/NotFound/NotFound"
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Switch,Route} from "react-router-dom"
@@ -17,6 +18,7 @@ const Root = () =>(
       <Route path="/map" component={App}/>
       <Route path="/profil" component={Profil}/>
       <Route path="/addRestaurant" component={RestaurantAdmin}/>
+      <Route path="/update/:id" component={UpdateRestaurant}/>
       <Route component={NotFound}/>
     </Switch>
   </Router>

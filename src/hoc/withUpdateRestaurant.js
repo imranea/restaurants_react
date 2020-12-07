@@ -1,10 +1,11 @@
 import React,{Component} from "react"
-import {createRestaurant,getProfile} from "../components/UserFunction"
+import {updateRestaurant,getRestaurantById,getProfile} from "../components/UserFunction"
 import Nominatim from "nominatim-geocoder"
 import MuiAlert from '@material-ui/lab/Alert';
-import {Redirect} from "react-router-dom"
 import Form from 'react-bootstrap/Form'
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
+import {Redirect} from "react-router-dom"
+
 const geocoder = new Nominatim()
 
 function Alert(props) {
@@ -12,7 +13,7 @@ function Alert(props) {
 }
 
 
-const withRestaurantAdmin = WrappedComponent =>( 
+const withUpdateRestaurant = WrappedComponent =>( // hoc 
     class HOC extends Component{
         state={
             inputType:[],
@@ -20,29 +21,45 @@ const withRestaurantAdmin = WrappedComponent =>(
             address:"",
             postalCode:"",
             city:"",
-            rating:0,
+            rating:"",
+            typeFirst:"",
             types:[],
-            error:false,
+            alert:false,
             notif:"",
+            idRestaurant:"",
             redirect:false
-         }
-
+        }
+    
         componentDidMount(){
             if(localStorage.getItem('token')){
                 getProfile(localStorage.getItem('token'))
                 .then(res=>{
                     if(!res){
-                       return this.setState({redirect:true})
+                        return this.setState({redirect:true})
                     }
+                    this.setState({idRestaurant:this.props.match.params.id}) // get id from url
+                    getRestaurantById(localStorage.getItem("token"),this.props.match.params.id) // get the restaurant by id
+                    .then(res=>{
+                        this.setState({ // filled the input with the properties of the restaurant
+                            nameRestaurant:res.name,
+                            address:res.address,
+                            postalCode:res.postalCode,
+                            city:res.city,
+                            rating:res.ratings,
+                            typeFirst:res.types[0]
+                        })
+                        for(let i=1 ;i<res.types.length;i++){ // We create as many inputs as there are type restaurant
+                            this.setState({inputType:[...this.state.inputType,<div style={{display:"flex"}} key={this.state.inputType.length}>
+                            <Form.Control type="text" placeholder="Type of Restaurant" className="typeRestaurant" defaultValue={res.types[i]} onChange={this.handleChange} key={this.state.inputType.length}/>
+                            <IndeterminateCheckBoxIcon color="primary" style={{margin:"auto"}} onClick={(key)=>this.handleDelete(key)}/>
+                            </div>]})
+                            
+                        }
+                    })
                 })
             }else{
                 this.setState({redirect:true})
             }
-        }
-    
-        handleChange = (event) =>{  // function handle change the state dependind the fiel update
-            const {name,value} = event.target
-            this.setState({[name]:value,error:false})    
         }
     
         handleClick=()=>{ // function to add an input in the form for type restaurant
@@ -53,13 +70,19 @@ const withRestaurantAdmin = WrappedComponent =>(
             </div>)
             this.setState({inputType:myInput})
         }
+    
+        handleChange=(event)=>{ // update state when we complete the field
+            const {name,value} = event.target
+            this.setState({[name]:value})
+        }
+    
         handleDelete=(key)=>{ // delete input filed
             let myTypes = [...this.state.inputType]
             myTypes.splice(key+1,1)
             this.setState({inputType:myTypes})
         }
-
-        geocodeLatLon = (adress,pc,city) =>{
+    
+        geocodeLatLon = (adress,pc,city) =>{ // check if the address is correct and return lat and lng
             return geocoder.search( { q: `${adress} ${pc} ${city} France` } )
             .then((response) => {
                 return {
@@ -72,30 +95,26 @@ const withRestaurantAdmin = WrappedComponent =>(
             })
         }
     
-        handleSubmit=async(event)=>{ // form submit
+        handleSubmit= async(event)=>{ // submit form
             event.preventDefault()
-            let typesRestaurants = [...this.state.types] // get the state types
-            let myTypes = document.getElementsByClassName('typeRestaurant') //get all input type with class typeRestaurant
-
+            const myTypes = document.getElementsByClassName("typeRestaurant")
+            const typesRestaurant = [...this.state.types]
+    
             Object.keys(myTypes)
             .forEach(key=>{
-                typesRestaurants.push(myTypes[key].value) 
+                typesRestaurant.push(myTypes[key].value)
             })
-            this.setState({types:typesRestaurants})
-
-            let latLng = await this.geocodeLatLon(this.state.address,this.state.postalCode,this.state.city)
-
-            if(!latLng || this.state.address.trim()==""){
-                this.setState({error:true,notif:<Alert severity="error">We don't find your address, please retry!</Alert>})
-                return;
+            this.setState({types:typesRestaurant})
+    
+            const latLng = await this.geocodeLatLon(this.state.address,this.state.postalCode,this.state.city)
+    
+            if(latLng===undefined){
+               return this.setState({alert:true,notif:<Alert severity="error">We don't find your address, please retry!</Alert>})
             }
-
-            const newRestaurant = { // object restaurant with the properties of restaurant
+    
+            const restaurant = {
                 name: this.state.nameRestaurant,
                 vicinity:`${this.state.address} ${this.state.postalCode} ${this.state.city}`,
-                address:this.state.address,
-                postalCode:this.state.postalCode,
-                city:this.state.city,
                 geometry:{
                     latitude:latLng.lat,
                     longitude:latLng.lon
@@ -104,21 +123,19 @@ const withRestaurantAdmin = WrappedComponent =>(
                 types:this.state.types,
                 image:"https://duyt4h9nfnj50.cloudfront.net/resized/1544088810428-w2880-7c.jpg"
             }
-
-            createRestaurant(newRestaurant,localStorage.getItem('token')) // function from userFunction to create a Restaurant
+    
+            updateRestaurant(restaurant,this.state.idRestaurant,localStorage.getItem("token"))
             .then(res=>{
-                if(res === 400){
-                    this.setState({error:true,notif:<Alert severity="error">The restaurant already exist</Alert>})
-                }else if(res === undefined){
-                    this.setState({error:true,notif:<Alert severity="error">Server problem, retry soon</Alert>})
+                if(res===404){
+                    this.setState({alert:true,notif:<Alert severity="error">Restaurant not found</Alert>})
+                }else if(res===500){
+                    this.setState({alert:true,notif:<Alert severity="error">The address is already occuped by a other restaurant</Alert>})
                 }
                 else{
-                    this.setState({error:true,notif:<Alert severity="success">Your Restaurant is created</Alert>})
+                    this.setState({alert:true,notif:<Alert severity="success">Restaurant updated</Alert>})
                 }
             })
-            .catch(e=>{
-                this.setState({error:true,notif:<Alert severity="error">Server problem, retry soon</Alert>})
-            })
+            
         }
 
         render(){
@@ -133,9 +150,11 @@ const withRestaurantAdmin = WrappedComponent =>(
                     postalCode={this.state.postalCode}
                     city={this.state.city}
                     rating={this.state.rating}
+                    typeFirst={this.state.typeFirst}
                     types={this.state.types}
-                    error={this.state.error}
+                    alert={this.state.alert}
                     notif={this.state.notif}
+                    idRestaurant={this.state.idRestaurant}
                     handleChange={this.handleChange}
                     handleClick={this.handleClick}
                     handleDelete={this.handleDelete}
@@ -147,4 +166,4 @@ const withRestaurantAdmin = WrappedComponent =>(
     }
 )
 
-export default withRestaurantAdmin
+export default withUpdateRestaurant

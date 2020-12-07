@@ -10,7 +10,6 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/"; // resolve the problem 
 export default (place,lat,lng)=>{
         return dispatch=>{
             if(place === true){
-                console.log("API utilisé")
                 axios.get(proxyurl+`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=${process.env.REACT_APP_NOT_SECRET_CODE}`)
                 .then((response) => {
                         let requests = response.data.results.map(element => {
