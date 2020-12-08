@@ -13,12 +13,8 @@ export const loginUser = (email,password) =>{ // function login user with axios 
     })
 }
 
-export const signUpUser = (name,email,password) =>{ // function signup user with axios request
-    return axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/signup`,{
-        name,
-        email,
-        password
-    })
+export const signUpUser = (newUser) =>{ // function signup user with axios request
+    return axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/signup`,newUser)
     .then((response)=>{ // set token in localStorage
         return response.data // return token 
     })
@@ -86,5 +82,18 @@ export const updateRestaurant = (restaurant,id,token) =>{
     })
     .catch((e)=>{
         return e.response.status
+    })
+}
+
+export const uploadAvatar = (token,data) =>{
+    return axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/meAvatar`, data, {
+        'content-type': 'multipart/form-data',
+        headers:{Authorization:`Bearer ${token}`}
+    })
+    .then(res => { // then print response status
+        return res.data.message
+    })
+    .catch(e=>{
+        return e
     })
 }

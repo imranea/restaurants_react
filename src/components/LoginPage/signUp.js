@@ -14,7 +14,10 @@ function Alert(props) { // component pur Alert
 const SignUpPage = ({viewSignUp,changeView}) =>{
     
     const [idLoginSignUp,setIdLoginSignUp]= useState({
-        pseudo:"",
+        firstname:"",
+        lastname:"",
+        age:"",
+        profession:"",
         email:"",
         password:"",
         redirect:false,
@@ -26,8 +29,17 @@ const SignUpPage = ({viewSignUp,changeView}) =>{
         const {name,value} = event.target 
         let login = {...idLoginSignUp}
         switch(name){ // get name and check the value to realize different operations
-            case "pseudo":
-                login.pseudo=value
+            case "firstname":
+                login.firstname=value
+                break
+            case "lastname":
+                login.lastname=value
+                break
+            case "age":
+                login.age=value
+                break
+            case "profession":
+                login.profession=value
                 break
             case "email":
                 login.email=value
@@ -48,14 +60,22 @@ const SignUpPage = ({viewSignUp,changeView}) =>{
 
     const handleSubmit=(event)=>{ // submit 
         event.preventDefault()
-        signUpUser(idLoginSignUp.pseudo,idLoginSignUp.email,idLoginSignUp.password) // function from UserFunction.js
+        const newUser = {
+            firstname: idLoginSignUp.firstname,
+            lastname:idLoginSignUp.lastname,
+            age:idLoginSignUp.age,
+            profession:idLoginSignUp.profession,
+            email:idLoginSignUp.email,
+            password:idLoginSignUp.password
+        }
+        signUpUser(newUser) // function from UserFunction.js
         .then(res =>{ // if res is retrieved
             let login = {...idLoginSignUp} // get state idLogin in variable
             if(res){
                 localStorage.setItem("token",res.token) // set token in localstorage
                 login.redirect = true // set redirect to true
             }else{
-                setNotif(<Alert severity="error">Un compte possède déjà ce mail</Alert>) // state notif with component Alert error
+                setNotif(<Alert severity="error">An account has already this email</Alert>) // state notif with component Alert error
                 login.error = true // set login to true
             }
             setIdLoginSignUp(login) // update state 
@@ -75,9 +95,27 @@ const SignUpPage = ({viewSignUp,changeView}) =>{
                     :
                     <span></span>
                 }
-                <Form.Group controlId="formBasicPseudo">
-                    <Form.Label>Pseudo</Form.Label>
-                    <Form.Control type="text" name="pseudo" placeholder="Enter pseudo" onChange={handleChange} value={idLoginSignUp.pseudo} required/>
+                <Form.Group controlId="formBasicFirstname">
+                    <Form.Label>Lastname</Form.Label>
+                    <Form.Control type="text" name="firstname" placeholder="Enter firstname" onChange={handleChange} value={idLoginSignUp.firstname} required/>
+                    <Form.Text className="text-muted">
+                    </Form.Text>
+                </Form.Group>
+                <Form.Group controlId="formBasicLastname">
+                    <Form.Label>Firstname</Form.Label>
+                    <Form.Control type="text" name="lastname" placeholder="Enter lastname" onChange={handleChange} value={idLoginSignUp.lastname} required/>
+                    <Form.Text className="text-muted">
+                    </Form.Text>
+                </Form.Group>
+                <Form.Group controlId="formBasicAge">
+                    <Form.Label>Age</Form.Label>
+                    <Form.Control type="number" name="age" placeholder="Enter age" onChange={handleChange} value={idLoginSignUp.age} required/>
+                    <Form.Text className="text-muted">
+                    </Form.Text>
+                </Form.Group>
+                <Form.Group controlId="formBasicProfession">
+                    <Form.Label>Profession</Form.Label>
+                    <Form.Control type="text" name="profession" placeholder="Enter profession" onChange={handleChange} value={idLoginSignUp.profession} required/>
                     <Form.Text className="text-muted">
                     </Form.Text>
                 </Form.Group>
