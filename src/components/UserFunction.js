@@ -35,6 +35,32 @@ export const getProfile = (token) =>{ // check if token is correct to authorizat
     })
 }
 
+export const uploadAvatar = (token,data) =>{
+    return axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/meAvatar`, data, {
+        'content-type': 'multipart/form-data',
+        headers:{Authorization:`Bearer ${token}`}
+    })
+    .then(res => { // then print response status
+        return res.data.message
+    })
+    .catch(e=>{
+        return e.response.status
+    })
+}
+
+
+export const updateUser = (token,userToUpdate) =>{
+    return axios.patch(`${process.env.REACT_APP_API_NODE}/api/auth/me`,userToUpdate,{
+        headers:{Authorization:`Bearer ${token}`}
+    })
+    .then(res => { // then print response status
+        return res
+    })
+    .catch(e=>{
+        return e.response.status
+    })
+}
+
 export const logOutUser = (token) =>{ // logout (remove the present token from the database)
     return axios.get(`${process.env.REACT_APP_API_NODE}/api/auth/logout`,{
         headers:{Authorization:`Bearer ${token}`}
@@ -82,18 +108,5 @@ export const updateRestaurant = (restaurant,id,token) =>{
     })
     .catch((e)=>{
         return e.response.status
-    })
-}
-
-export const uploadAvatar = (token,data) =>{
-    return axios.post(`${process.env.REACT_APP_API_NODE}/api/auth/meAvatar`, data, {
-        'content-type': 'multipart/form-data',
-        headers:{Authorization:`Bearer ${token}`}
-    })
-    .then(res => { // then print response status
-        return res.data.message
-    })
-    .catch(e=>{
-        return e
     })
 }

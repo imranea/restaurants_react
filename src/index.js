@@ -5,6 +5,7 @@ import Provider from "./store/store"
 import App from './App';
 import LoginPage from "./components/LoginPage/LoginPage"
 import Profil from "./components/Admin/Profil"
+import UpdateProfil from "../src/components/Admin/UpdateProfil"
 import RestaurantAdmin from "./components/Admin/RestaurantAdmin"
 import UpdateRestaurant from "./components/Admin/UpdateRestaurant"
 import NotFound from "./components/NotFound/NotFound"
@@ -16,9 +17,10 @@ const Root = () =>(
     <Switch>
       <Route exact path="/" component={LoginPage}/>
       <Route path="/map" component={App}/>
-      <Route path="/profil" component={Profil}/>
+      <Route path="/profile" component={Profil}/>
+      <Route path="/updateProfile" component={UpdateProfil}/>
       <Route path="/addRestaurant" component={RestaurantAdmin}/>
-      <Route path="/update/:id" component={UpdateRestaurant}/>
+      <Route path="/updateRestaurant/:id" component={UpdateRestaurant}/>
       <Route component={NotFound}/>
     </Switch>
   </Router>

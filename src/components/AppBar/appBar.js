@@ -95,7 +95,7 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <NavLink style={{textDecoration:"none"}} to="/profil">
+                <NavLink style={{textDecoration:"none"}} to="/profile">
                   <MenuItem onClick={handleClose}>My Profil</MenuItem>
                 </NavLink>
                 <NavLink style={{textDecoration:"none"}} to="/addRestaurant">
