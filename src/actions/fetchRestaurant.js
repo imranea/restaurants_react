@@ -1,4 +1,4 @@
-import {fetchRestaurant,fetchRestaurantReview} from "./action"
+import {fetchRestaurant,fetchRestaurantReview} from "./"
 import data from "../restaurant.json"
 import axios from "axios"
 

@@ -4,7 +4,7 @@ import './App.css';
 import AppBar from "./components/AppBar/appBar"
 import Map from "./components/Map/Map"
 import GridList from "./components/RestaurantList/GridList"
-import fetchRestaurant from "./store/fetchRestaurant"
+import fetchRestaurant from "./actions/fetchRestaurant"
 import Loader from 'react-loader-spinner'
 import Slider from "./components/Filter/Slider"
 import {useMediaQuery} from "react-responsive"
@@ -27,12 +27,12 @@ const App = ({fetchRestaurant,restaurants,note})=>{
   
 
   useEffect(()=>{ 
-    if(localStorage.getItem('token')){// execute only if token is present
+    /* if(localStorage.getItem('token')){// execute only if token is present
       getProfile(localStorage.getItem('token')) // function from UserFunction.js
       .then(res=>{
         if(!res){
           setRedirect(true)
-        }
+        } */
         navigator.geolocation.watchPosition( (position) =>{ // if geolocation is active, we recover lat and lng to send in the function
           setCenter({                                       // fetchRestaurant to start our HTTP resquest with module axios
             lat:position.coords.latitude,
@@ -48,10 +48,10 @@ const App = ({fetchRestaurant,restaurants,note})=>{
             })
             fetchRestaurant(false,48.8837815,2.3601649)
         })
-      })
+      /* })
     }else{
       setRedirect(true)
-    }
+    } */
   },[fetchRestaurant]);
 
   if(redirect){ // if token is null, redirect to login page
@@ -106,10 +106,10 @@ const mapDispatchToProps = dispatch =>{ // function from store
   }
 }
 
-App.propTypes = {
+/* App.propTypes = {
   restaurants : PropTypes.array.isRequired,
   note : PropTypes.number.isRequired,
   fetchRestaurant : PropTypes.func.isRequired
-}
+} */
 
 export default connect(mapStateToProps,mapDispatchToProps)(App); 

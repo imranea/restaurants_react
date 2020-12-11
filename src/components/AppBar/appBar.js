@@ -47,14 +47,14 @@ export default function MenuAppBar() {
     })
   }
 
-  if(localStorage.getItem('token')){ // if token is present , redirect to map
+  /* if(localStorage.getItem('token')){ // if token is present , redirect to map
     getProfile(localStorage.getItem('token')) // function from UserFunction.js
     .then(res=>{
         if(res){
             setAuth(res)
         }
     })
-  }  
+  }  */ 
 
   if(redirect){ // if token is null, redirect to login page
     return (

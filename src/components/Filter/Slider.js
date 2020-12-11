@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux"
-import {noteRestaurant} from "../../store/action"
+import {noteRestaurant} from "../../actions/"
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';

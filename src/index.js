@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Provider from "./store/store"
+import {Provider} from "react-redux"
+import store from "./configureStore"
 import App from './App';
 import LoginPage from "./components/LoginPage/LoginPage"
 import Profil from "./components/Admin/Profil"
@@ -29,7 +30,7 @@ const Root = () =>(
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
+    <Provider store={store}>
       <Root/>
     </Provider>
   </React.StrictMode>,
