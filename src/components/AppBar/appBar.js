@@ -22,9 +22,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar({authentificate}) {
   const classes = useStyles();
-  const [auth, setAuth] = useState(false);
   const [redirect,setRedirect] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -47,15 +46,6 @@ export default function MenuAppBar() {
     })
   }
 
-  /* if(localStorage.getItem('token')){ // if token is present , redirect to map
-    getProfile(localStorage.getItem('token')) // function from UserFunction.js
-    .then(res=>{
-        if(res){
-            setAuth(res)
-        }
-    })
-  }  */ 
-
   if(redirect){ // if token is null, redirect to login page
     return (
       <Redirect to="/" />
@@ -69,7 +59,7 @@ export default function MenuAppBar() {
           <Typography variant="h6" className={classes.title}>
             Restart Trade
           </Typography>
-          {auth && (
+          {!authentificate && (
             <div>
               <IconButton
                 aria-label="account of current user"

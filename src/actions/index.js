@@ -4,11 +4,10 @@ export const actionTypes = {
     FETCH_RESTAURANT_REVIEW : 'FETCH_RESTAURANT_REVIEW'
 };
 
-export const noteRestaurant = (note) =>{ // function to update rating
-    return dispatch =>{
-        dispatch({type:actionTypes.NOTE,note})
-    }
-}
+export const noteRestaurant = (note) =>({
+    type : actionTypes.NOTE,
+    note
+})
 
 export const fetchRestaurant = (restaurants) =>({ // function to fill our state restaurants
     type : actionTypes.FETCH_RESTAURANT,

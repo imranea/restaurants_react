@@ -16,7 +16,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
-import imgDefault from "../../img/default.jpeg";
+import imgDefault from "../../../img/default.jpeg";
 import Loader from 'react-loader-spinner'
 import PropTypes from "prop-types"
 
@@ -44,11 +44,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
+const RestaurantUser = ({nameRestaurant,address,rating,types,image,id,review}) =>{
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-
-   if(review === undefined){ 
+  /*  if(review === undefined){ 
     return(
       <div style={{display:"flex",width:"100%",height:"100%"}}>
       <Loader
@@ -60,11 +59,11 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
       />
       </div>
      );
-  } 
+  }  */
 
   const imgCard = (img) =>{ // if img is defined, create an dynamic url 
     if(img){
-      return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${img[0].photo_reference}&key=${process.env.REACT_APP_NOT_SECRET_CODE}`
+      return img
     }
     return imgDefault
   }
@@ -133,7 +132,7 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
+        {/* <CardContent>
          { // display reviews of restaurants
           review.reviews?   
             Object.keys(review.reviews)
@@ -153,13 +152,13 @@ const Restaurant = ({nameRestaurant,address,rating,types,image,id,review}) =>{
             </Typography>
           }  
         
-        </CardContent>
+        </CardContent> */}
       </Collapse>
     </Card>
   );
 }
 
-Restaurant.propTypes = {
+RestaurantUser.propTypes = {
   nameRestaurant : PropTypes.string.isRequired,
   address : PropTypes.string.isRequired,
   rating : PropTypes.number.isRequired,
@@ -169,4 +168,4 @@ Restaurant.propTypes = {
   review: PropTypes.object
 }
 
-export default Restaurant
+export default RestaurantUser

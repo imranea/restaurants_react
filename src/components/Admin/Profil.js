@@ -1,11 +1,13 @@
 import React,{Component} from "react"
 import AppBar from "../AppBar/appBar"
 import {getProfile} from "../UserFunction"
+import {getRestaurantsUser} from "../RestaurantFunction"
 import imgBackground from "../../img/background-user.jpg"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import {NavLink} from "react-router-dom"
 import { Nav } from "react-bootstrap";
+import GridList from "../RestaurantList/RestaurantUser/GridList"
 
 
 class Profil extends Component {
@@ -16,7 +18,8 @@ class Profil extends Component {
         name:"",
         email:"",
         age:"",
-        urlAvatar:""
+        urlAvatar:"",
+        restaurants:[]
       }
     }
 
@@ -31,6 +34,10 @@ class Profil extends Component {
             age:res.age,
             profession:res.profession.charAt(0).toUpperCase()+res.profession.substr(1),
             urlAvatar:`${process.env.REACT_APP_API_NODE}/api/auth/meAvatar/${res._id}`
+          })
+          getRestaurantsUser(localStorage.getItem('token'))
+          .then(res=>{
+            this.setState({restaurants:res})
           })
         })
       }
@@ -60,6 +67,7 @@ class Profil extends Component {
                     </div>
                     <div>
                       <h1 style={{textAlign:"center"}}>Les restaurants</h1>
+                        <GridList restaurants={this.state.restaurants}/>
                     </div>
                 </section>
             </>

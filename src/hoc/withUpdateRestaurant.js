@@ -1,5 +1,6 @@
 import React,{Component} from "react"
-import {updateRestaurant,getRestaurantById,getProfile} from "../components/UserFunction"
+import {getRestaurantById,updateRestaurant} from "../components/RestaurantFunction"
+import {getProfile} from "../components/UserFunction"
 import Nominatim from "nominatim-geocoder"
 import MuiAlert from '@material-ui/lab/Alert';
 import Form from 'react-bootstrap/Form'
@@ -155,6 +156,7 @@ const withUpdateRestaurant = WrappedComponent =>( // hoc
                     alert={this.state.alert}
                     notif={this.state.notif}
                     idRestaurant={this.state.idRestaurant}
+                    redirect={this.state.redirect}
                     handleChange={this.handleChange}
                     handleClick={this.handleClick}
                     handleDelete={this.handleDelete}

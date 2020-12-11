@@ -10,7 +10,7 @@ import withUpdateRestaurant from "../../hoc/withUpdateRestaurant"
 const UpdateRestaurant = (props)=>{
         return(
         <> 
-            {/* <AppBar/> */}
+            <AppBar authentificate={props.redirect}/>
             <h1 style={{textAlign:"center"}}>Update Restaurant</h1>
             <div className="myFormRestaurant">
                 <Form onSubmit={props.handleSubmit}>

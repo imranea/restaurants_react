@@ -1,5 +1,6 @@
 import React,{Component} from "react"
-import {createRestaurant,getProfile} from "../components/UserFunction"
+import {createRestaurant} from "../components/RestaurantFunction"
+import {getProfile} from "../components/UserFunction"
 import Nominatim from "nominatim-geocoder"
 import MuiAlert from '@material-ui/lab/Alert';
 import {Redirect} from "react-router-dom"
@@ -22,6 +23,7 @@ const withRestaurantAdmin = WrappedComponent =>(
             city:"",
             rating:0,
             types:[],
+            urlAvatar:"",
             error:false,
             notif:"",
             redirect:false
@@ -43,6 +45,15 @@ const withRestaurantAdmin = WrappedComponent =>(
         handleChange = (event) =>{  // function handle change the state dependind the fiel update
             const {name,value} = event.target
             this.setState({[name]:value,error:false})    
+        }
+
+        onChangeHandler=(event)=>{ // display previous image by input file et update state with the file
+            let image = document.getElementById('uploadAvatar');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            image.style.display="initial"
+            this.setState({
+                selectedFile: event.target.files[0]
+            })
         }
     
         handleClick=()=>{ // function to add an input in the form for type restaurant
@@ -77,6 +88,9 @@ const withRestaurantAdmin = WrappedComponent =>(
             let typesRestaurants = [...this.state.types] // get the state types
             let myTypes = document.getElementsByClassName('typeRestaurant') //get all input type with class typeRestaurant
 
+            const data = new FormData() // variable with our file
+            data.append('myImage', this.state.selectedFile)
+
             Object.keys(myTypes)
             .forEach(key=>{
                 typesRestaurants.push(myTypes[key].value) 
@@ -85,7 +99,7 @@ const withRestaurantAdmin = WrappedComponent =>(
 
             let latLng = await this.geocodeLatLon(this.state.address,this.state.postalCode,this.state.city)
 
-            if(!latLng || this.state.address.trim()==""){
+            if(!latLng || this.state.address.trim()===""){
                 this.setState({error:true,notif:<Alert severity="error">We don't find your address, please retry!</Alert>})
                 return;
             }
@@ -97,15 +111,18 @@ const withRestaurantAdmin = WrappedComponent =>(
                 postalCode:this.state.postalCode,
                 city:this.state.city,
                 geometry:{
-                    latitude:latLng.lat,
-                    longitude:latLng.lon
+                    location:{
+                        lat:latLng.lat,
+                        lng:latLng.lon
+                    }
                 },
                 ratings:this.state.rating,
-                types:this.state.types,
-                image:"https://duyt4h9nfnj50.cloudfront.net/resized/1544088810428-w2880-7c.jpg"
+                types:this.state.types
             }
 
-            createRestaurant(newRestaurant,localStorage.getItem('token')) // function from userFunction to create a Restaurant
+            data.append('restaurant', JSON.stringify(newRestaurant))
+
+            createRestaurant(data,localStorage.getItem('token')) // function from userFunction to create a Restaurant
             .then(res=>{
                 if(res === 400){
                     this.setState({error:true,notif:<Alert severity="error">The restaurant already exist</Alert>})
@@ -134,9 +151,12 @@ const withRestaurantAdmin = WrappedComponent =>(
                     city={this.state.city}
                     rating={this.state.rating}
                     types={this.state.types}
+                    urlAvatar={this.state.urlAvatar}
                     error={this.state.error}
                     notif={this.state.notif}
+                    redirect={this.state.redirect}
                     handleChange={this.handleChange}
+                    onChangeHandler={this.onChangeHandler}
                     handleClick={this.handleClick}
                     handleDelete={this.handleDelete}
                     handleSubmit={this.handleSubmit}
