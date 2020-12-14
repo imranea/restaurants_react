@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 const GridListRestaurantUser = ({restaurants}) =>{
   const classes = useStyles();
-  
   return (
     <div className={classes.root}>
       <GridList cellHeight={180} className={classes.gridList}>
@@ -35,7 +34,7 @@ const GridListRestaurantUser = ({restaurants}) =>{
                 return(
                 <CardRestaurant
                   key={key}
-                  id={key}
+                  id={restaurants[key]._id}
                   nameRestaurant={restaurants[key].name}
                   address={restaurants[key].vicinity}
                   lat={restaurants[key].geometry.latitude}

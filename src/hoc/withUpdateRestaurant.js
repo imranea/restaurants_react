@@ -25,6 +25,8 @@ const withUpdateRestaurant = WrappedComponent =>( // hoc
             rating:"",
             typeFirst:"",
             types:[],
+            urlAvatar:"",
+            selectedFile:"",
             alert:false,
             notif:"",
             idRestaurant:"",
@@ -47,7 +49,9 @@ const withUpdateRestaurant = WrappedComponent =>( // hoc
                             postalCode:res.postalCode,
                             city:res.city,
                             rating:res.ratings,
-                            typeFirst:res.types[0]
+                            typeFirst:res.types[0],
+                            selectedFile:res.image,
+                            urlAvatar:`${process.env.REACT_APP_API_NODE}/api/restaurants/userRestaurants/photo/${res._id}`
                         })
                         for(let i=1 ;i<res.types.length;i++){ // We create as many inputs as there are type restaurant
                             this.setState({inputType:[...this.state.inputType,<div style={{display:"flex"}} key={this.state.inputType.length}>
@@ -61,6 +65,15 @@ const withUpdateRestaurant = WrappedComponent =>( // hoc
             }else{
                 this.setState({redirect:true})
             }
+        }
+
+        onChangeHandler=(event)=>{ // display previous image by input file et update state with the file
+            let image = document.getElementById('uploadAvatar');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            image.style.display="initial"
+            this.setState({
+                selectedFile: event.target.files[0]
+            })
         }
     
         handleClick=()=>{ // function to add an input in the form for type restaurant
@@ -100,6 +113,12 @@ const withUpdateRestaurant = WrappedComponent =>( // hoc
             event.preventDefault()
             const myTypes = document.getElementsByClassName("typeRestaurant")
             const typesRestaurant = [...this.state.types]
+
+            const data = new FormData() // variable with our file
+
+            if(this.state.selectedFile != null){
+                data.append('myImage', this.state.selectedFile)
+            }
     
             Object.keys(myTypes)
             .forEach(key=>{
@@ -116,16 +135,22 @@ const withUpdateRestaurant = WrappedComponent =>( // hoc
             const restaurant = {
                 name: this.state.nameRestaurant,
                 vicinity:`${this.state.address} ${this.state.postalCode} ${this.state.city}`,
+                address:this.state.address,
+                postalCode:this.state.postalCode,
+                city:this.state.city,
                 geometry:{
-                    latitude:latLng.lat,
-                    longitude:latLng.lon
+                    location:{
+                        lat:latLng.lat,
+                        lng:latLng.lon
+                    }
                 },
                 ratings:this.state.rating,
                 types:this.state.types,
-                image:"https://duyt4h9nfnj50.cloudfront.net/resized/1544088810428-w2880-7c.jpg"
             }
+
+            data.append('restaurant', JSON.stringify(restaurant))
     
-            updateRestaurant(restaurant,this.state.idRestaurant,localStorage.getItem("token"))
+            updateRestaurant(data,this.state.idRestaurant,localStorage.getItem("token"))
             .then(res=>{
                 if(res===404){
                     this.setState({alert:true,notif:<Alert severity="error">Restaurant not found</Alert>})
@@ -157,6 +182,8 @@ const withUpdateRestaurant = WrappedComponent =>( // hoc
                     notif={this.state.notif}
                     idRestaurant={this.state.idRestaurant}
                     redirect={this.state.redirect}
+                    urlAvatar={this.state.urlAvatar}
+                    onChangeHandler={this.onChangeHandler}
                     handleChange={this.handleChange}
                     handleClick={this.handleClick}
                     handleDelete={this.handleDelete}

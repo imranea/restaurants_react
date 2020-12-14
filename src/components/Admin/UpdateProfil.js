@@ -5,7 +5,9 @@ import './form.css'
 import IconButton from '@material-ui/core/IconButton';
 import MuiAlert from '@material-ui/lab/Alert';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import AppBar from "../AppBar/appBar"
 import {uploadAvatar,updateUser,getProfile} from "../UserFunction"
+import {Redirect} from "react-router-dom"
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -23,13 +25,17 @@ class UpdateProfil extends Component{
         selectedFile: null,
         urlAvatar:"",
         notif:false,
-        alert:""
+        alert:"",
+        redirect:false
     }
 
     componentDidMount(){ // when the component is mount , check if token exist and vald et get properties from the user and complete the field of the form
         if(localStorage.getItem('token')){
             getProfile(localStorage.getItem('token'))
             .then(res=>{
+              if(!res){
+                this.setState({redirect:true})
+              }
               this.setState({
                 firstname:`${res.firstname.charAt(0).toUpperCase()+res.firstname.substr(1)}`,
                 lastname:`${res.lastname.charAt(0).toUpperCase()+res.lastname.substr(1)}`,
@@ -92,8 +98,14 @@ class UpdateProfil extends Component{
         })
     }
     render(){
+        if(this.state.redirect){ // if token is null, redirect to login page
+            return (
+              <Redirect to="/" />
+            )
+        }
         return(
             <> 
+            <AppBar authentificate={this.state.redirect}/>
             <h1 style={{textAlign:"center"}}>Update Profile</h1>
             <div className="myFormRestaurant">
                 <Form onSubmit={this.handleSubmit}>

@@ -5,8 +5,7 @@ import {getRestaurantsUser} from "../RestaurantFunction"
 import imgBackground from "../../img/background-user.jpg"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import {NavLink} from "react-router-dom"
-import { Nav } from "react-bootstrap";
+import {NavLink,Redirect} from "react-router-dom"
 import GridList from "../RestaurantList/RestaurantUser/GridList"
 
 
@@ -19,7 +18,8 @@ class Profil extends Component {
         email:"",
         age:"",
         urlAvatar:"",
-        restaurants:[]
+        restaurants:[],
+        redirect:false
       }
     }
 
@@ -27,6 +27,9 @@ class Profil extends Component {
       if(localStorage.getItem('token')){
         getProfile(localStorage.getItem('token'))
         .then(res=>{
+          if(!res){
+            this.setState({redirect:true})
+          }
           this.setState({
             id:res._id,
             name:`${res.firstname.charAt(0).toUpperCase()+res.firstname.substr(1)} ${res.lastname.charAt(0).toUpperCase()+res.lastname.substr(1)}`,
@@ -44,9 +47,14 @@ class Profil extends Component {
     }
     
       render(){
+        if(this.state.redirect){ // if token is null, redirect to login page
+          return (
+            <Redirect to="/" />
+          )
+        }
         return(
             <> 
-{/*                 <AppBar/> */}
+                <AppBar authentificate={this.state.redirect}/>
                 <section style={{width:"100%",height:"100%"}}>
                     <div style={{backgroundImage:`url(${imgBackground})`,height: "50%",display:"flex"}}>
                         <figure style={{margin:"auto",flexDirection: "column"}}>

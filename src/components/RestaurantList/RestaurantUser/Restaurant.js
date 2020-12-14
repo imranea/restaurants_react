@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -18,6 +19,7 @@ import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import imgDefault from "../../../img/default.jpeg";
 import Loader from 'react-loader-spinner'
+import Button from '@material-ui/core/Button';
 import PropTypes from "prop-types"
 
 const useStyles = makeStyles((theme) => ({
@@ -118,6 +120,16 @@ const RestaurantUser = ({nameRestaurant,address,rating,types,image,id,review}) =
           <Rating name="read-only" value={rating} readOnly />
         </Box>
       </CardContent>
+      <div style={{display:"flex",flexDirection:"row"}}>
+        <NavLink to={`/updateRestaurant/${id}`}>
+        <Button variant="contained" color="secondary">
+            Update
+          </Button>
+        </NavLink>
+          <Button variant="contained" color="secondary">
+            Delete
+          </Button>
+      </div>
       <CardActions disableSpacing>
         <IconButton
           className={clsx(classes.expand, {

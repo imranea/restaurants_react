@@ -24,6 +24,7 @@ const withRestaurantAdmin = WrappedComponent =>(
             rating:0,
             types:[],
             urlAvatar:"",
+            selectedFile:"",
             error:false,
             notif:"",
             redirect:false
